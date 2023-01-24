@@ -1,6 +1,9 @@
 # environment
 revalida2_env
 
+# pycache
+__pycache__
+
 
 # editors
 .vscode
