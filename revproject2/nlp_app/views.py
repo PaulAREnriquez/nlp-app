@@ -1,22 +1,11 @@
 
 from django.shortcuts import render
 from .forms import SentimentsForm
-import re
-import string
-import joblib
-from joblib import load
-import pandas as pd
-import sklearn
-from sklearn.feature_extraction.text import TfidfVectorizer
-from ml_model import input_vectorizer
+
 import torch
-from torch import nn
-import scipy
-import numpy
 
-
-#model = joblib.load('D:/77Global Training\Revalida 2\Revalida2-project/tfidf_vectorizer.joblib')
-#vectorizer = TfidfVectorizer(max_features=2000)
+from .apps import NlpAppConfig
+from .utils import text_preprocess
 
 # Create your views here.
 def home(request):
@@ -26,23 +15,39 @@ def getPrediction(request):
     
     """ This function handles the review input and prediction of result """
     
-    
     form = SentimentsForm(request.POST)
     context = {}
 
-    
     if request.method == 'POST' :
         
         if form.is_valid():
             final_review = form['review'].value() #extracts the review to be analyzed'
             print(final_review)
-            prediction = input_vectorizer(final_review)
-            #print(prediction)
-            context = {'result': prediction, 'input': final_review}
-            #context['text'] = prediction
-            #print(context)
+        
+            # Text preprocessing
+            cleaned_tweet = text_preprocess(final_review)
 
-            # 0 - negative // 1 - Neutral // 2 - Positive
+            # Using Our TfidfVectorizer to transform the tokens from our Training Data
+            tfidf_tweet = NlpAppConfig.tfidf.transform(cleaned_tweet).toarray()
+
+            # Converting our vector into tensor
+            tfidf_tweet = torch.from_numpy(tfidf_tweet).type(torch.float)
+            # Using our model to predict the sentiment
+            prediction = NlpAppConfig.model_3.forward(tfidf_tweet)
+            prediction = torch.softmax(prediction, dim=1)
+            prediction = torch.argmax(prediction, dim=1)
+            prediction = prediction.detach().cpu().numpy()
+
+            if prediction[0] == 0:
+                sentiment = "This tweet is negative."
+            elif prediction[0] == 1:
+                sentiment = "This tweet is neutral."
+            else:
+                sentiment = "This tweet is positive."
+
+            print(sentiment)
+            context = {'result': sentiment, 'input': final_review}
+            
 
     else:
         form = SentimentsForm()
