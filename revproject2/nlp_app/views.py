@@ -9,6 +9,9 @@ from .utils import text_preprocess
 
 # Create your views here.
 def home(request):
+    
+    """ This function renders the home page """
+    
     return render(request, 'home.html')
 
 def getPrediction(request):
@@ -22,7 +25,6 @@ def getPrediction(request):
         
         if form.is_valid():
             final_review = form['review'].value() #extracts the review to be analyzed'
-            print(final_review)
         
             # Text preprocessing
             cleaned_tweet = text_preprocess(final_review)
@@ -32,20 +34,20 @@ def getPrediction(request):
 
             # Converting our vector into tensor
             tfidf_tweet = torch.from_numpy(tfidf_tweet).type(torch.float)
+            
             # Using our model to predict the sentiment
             prediction = NlpAppConfig.model_2.forward(tfidf_tweet)
             prediction = torch.softmax(prediction, dim=1)
             prediction = torch.argmax(prediction, dim=1)
             prediction = prediction.detach().cpu().numpy()
-
+            
             if prediction[0] == 0:
-                sentiment = "This tweet is negative."
+                sentiment = "Negative"
             elif prediction[0] == 1:
-                sentiment = "This tweet is neutral."
+                sentiment = "Neutral"
             else:
-                sentiment = "This tweet is positive."
+                sentiment = "Positive"
 
-            print(sentiment)
             context = {'result': sentiment, 'input': final_review}
             
 
