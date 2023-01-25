@@ -30,9 +30,9 @@ class NlpAppConfig(AppConfig):
     cwd = os.getcwd()
 
     # load the torch model
-    model_3 = BalancedNeuralNetwork(NUM_FEATURES, NUM_CLASSES)
-    state = torch.load(os.path.join(cwd,'nlp_app\\imports\\model_3.pth'))
-    model_3.load_state_dict(state['state_dict'])
+    model_2 = BalancedNeuralNetwork(NUM_FEATURES, NUM_CLASSES)
+    state = torch.load(os.path.join(cwd,'nlp_app\\imports\\model_2.pth'))
+    model_2.load_state_dict(state['state_dict'])
 
     # load the vectorizer
     tfidf = joblib.load(os.path.join(cwd,'nlp_app\\imports\\tfidf.sav'))

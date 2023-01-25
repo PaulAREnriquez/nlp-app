@@ -33,7 +33,7 @@ def getPrediction(request):
             # Converting our vector into tensor
             tfidf_tweet = torch.from_numpy(tfidf_tweet).type(torch.float)
             # Using our model to predict the sentiment
-            prediction = NlpAppConfig.model_3.forward(tfidf_tweet)
+            prediction = NlpAppConfig.model_2.forward(tfidf_tweet)
             prediction = torch.softmax(prediction, dim=1)
             prediction = torch.argmax(prediction, dim=1)
             prediction = prediction.detach().cpu().numpy()
