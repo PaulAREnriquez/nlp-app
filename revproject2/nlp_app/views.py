@@ -1,6 +1,7 @@
 
 from django.shortcuts import render
 from .forms import SentimentsForm
+import requests
 
 import torch
 
@@ -24,7 +25,17 @@ def getPrediction(request):
     if request.method == 'POST' :
         
         if form.is_valid():
+            
             final_review = form['review'].value() #extracts the review to be analyzed'
+            url = "https://mak76u80ef.execute-api.ap-southeast-1.amazonaws.com/Prod/predict"
+            
+            data = {"body": "{\"data\": \""+final_review+"\"}"}
+            resp = requests.post(url, json = data)
+            context = {'result': resp.text, 'input': final_review}
+            
+    """_summary_
+   
+            
         
             # Text preprocessing
             cleaned_tweet = text_preprocess(final_review)
@@ -54,8 +65,11 @@ def getPrediction(request):
     else:
         form = SentimentsForm()
 
+     """
     
     context['form'] = form
+    
+    
     return render(request, 'analyze.html', context=context)
 
 

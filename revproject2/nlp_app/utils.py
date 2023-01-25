@@ -1,7 +1,6 @@
 import re
 import string
 import spacy
-import re
 import numpy as np
 
 def text_preprocess(message):
