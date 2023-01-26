@@ -5,6 +5,7 @@ import requests
 
 import json
 import torch
+import re
 
 from .apps import NlpAppConfig
 from .utils import text_preprocess
@@ -28,6 +29,7 @@ def getPrediction(request):
         if form.is_valid():
             
             final_review = form['review'].value() #extracts the review to be analyzed'
+            final_review = re.sub(r'\"', " ", final_review)
             url = "https://mak76u80ef.execute-api.ap-southeast-1.amazonaws.com/Prod/predict"
             
             data = {"body": "{\"data\": \""+final_review+"\"}"}
