@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'python3.9
+
+  Sample SAM Template for nlp-app
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+    MemorySize: 128
+Resources:
+  NLPAPP:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Architectures:
+      - x86_64
+      Events:
+        NLPAPPAPI:
+          Type: Api
+          Properties:
+            Path: /predict
+            Method: post
+      ImageUri: nlpapp:python3.9-v1
+    Metadata:
+      DockerContext: D:\77Global Training\Revalida 2\Revalida2-final-project\nlp-app\revproject2\nlp_app
+      DockerTag: python3.9-v1
+      Dockerfile: Dockerfile
+      SamResourceId: NLPAPP

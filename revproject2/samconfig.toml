@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "nlp-app"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1vw4eafvg7gud"
+s3_prefix = "nlp-app"
+region = "ap-southeast-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = ["NLPAPP=818900263251.dkr.ecr.ap-southeast-1.amazonaws.com/nlpapp834d5234/nlpapp156665e5repo"]

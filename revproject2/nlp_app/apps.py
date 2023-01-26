@@ -28,13 +28,12 @@ class NlpAppConfig(AppConfig):
     name = 'nlp_app'
 
     cwd = os.getcwd()
+    cwd = cwd.replace("\\", "/")
 
     # load the torch model
     model_2 = BalancedNeuralNetwork(NUM_FEATURES, NUM_CLASSES)
-    state = torch.load(os.path.join(cwd,'nlp_app\\imports\\model_2.pth'))
+    state = torch.load('/'.join([cwd,'nlp_app/imports/model_2.pth']))
     model_2.load_state_dict(state['state_dict'])
 
     # load the vectorizer
-    tfidf = joblib.load(os.path.join(cwd,'nlp_app\\imports\\tfidf.sav'))
-
-
+    tfidf = joblib.load('/'.join([cwd,'nlp_app/imports/tfidf.sav']))

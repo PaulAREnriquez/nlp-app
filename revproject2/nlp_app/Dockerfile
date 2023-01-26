@@ -4,13 +4,16 @@ FROM public.ecr.aws/lambda/python:3.9
 COPY requirements.txt ./
 RUN python3.9 -m pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
 
-# Copy for source code and other assests
+# Copy for source code and other assets
+
 COPY app.py ./
 COPY apps.py ./
 COPY utils.py ./
 ARG src="imports/"
 ARG target="imports/"
 COPY ${src} ${target}
+
+
 
 
 # Command can be overwritten by providing a different command in the template directly.
