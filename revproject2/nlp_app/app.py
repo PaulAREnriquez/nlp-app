@@ -12,7 +12,7 @@ def lambda_handler(event, context):
             # Text preprocessing
             cleaned_tweet = text_preprocess(payload)
 
-            # Using Our TfidfVectorizer to vectorize the preprocessed text
+            # Loading our TfidfVectorizer to vectorize the preprocessed text
             tfidf_tweet = NlpAppConfig.tfidf.transform(cleaned_tweet).toarray()
 
             # Converting our vector into tensor
