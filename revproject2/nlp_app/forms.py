@@ -5,7 +5,7 @@ class SentimentsForm(forms.Form):
     review = forms.CharField(max_length=5000, widget=forms.Textarea(
         attrs = {
             'class' : 'form-control',
-            'placeholder' : 'Input comment..',
+            'placeholder' : 'Input text to classify..',
         }
     ))
     

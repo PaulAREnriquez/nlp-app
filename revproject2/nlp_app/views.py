@@ -1,14 +1,12 @@
 
 from django.shortcuts import render
-from .forms import SentimentsForm
 import requests
 
 import json
-import torch
 import re
 
-from .apps import NlpAppConfig
-from .utils import text_preprocess
+from .forms import SentimentsForm
+
 
 # Create your views here.
 def home(request):
